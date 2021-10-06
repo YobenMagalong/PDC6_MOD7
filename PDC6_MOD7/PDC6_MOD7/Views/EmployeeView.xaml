@@ -19,14 +19,19 @@
                 <Button WidthRequest="150" Text="Add" Command="{Binding AddEmployeeCommand}"/>
             </StackLayout>
 
-            <ListView Grid.Row="1" ItemsSource="{Binding Employees}">
+            <ListView Grid.Row="1" 
+                      x:Name="lstEmployee"
+                      ItemTapped="OnItemSelected"
+                      ItemsSource="{Binding Employees}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal">
+                                <Label Text="{Binding studentid}"/>
                                 <Label Text="{Binding name}"/>
-                                <Label Text="{Binding gender}"/>
-                                <Label Text="{Binding age}"/>
+                                <Label Text="{Binding course}"/>
+                                <Label Text="{Binding year}"/>
+                                <Label Text="{Binding section}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

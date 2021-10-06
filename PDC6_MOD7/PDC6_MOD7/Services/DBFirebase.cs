@@ -6,6 +6,7 @@ using Firebase.Database;
 using Firebase.Database.Query;
 using PDC6_MOD7.Models;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace PDC6_MOD7.Services
 {
@@ -32,6 +33,29 @@ namespace PDC6_MOD7.Services
             await client
                 .Child("Employee")
                 .PostAsync(em);
+        }
+
+        public async Task DeleteEmployee(int StudentId, string Name, string Course, int Year, string Section)
+        {
+            var toDeleteStudent = (await client
+                .Child("Employee")
+                .OnceAsync<Employee>()).FirstOrDefault
+                (a => a.Object.studentid == StudentId || a.Object.name == Name);
+            await client.Child("Employee").Child(toDeleteStudent.Key).DeleteAsync();
+        }
+
+        public async Task UpdateEmployee(int StudentId, string Name, string Course, int Year, string Section)
+        {
+            var toUpdateEmployee = (await client
+                .Child("Employee")
+                .OnceAsync<Employee>()).FirstOrDefault
+                (a => a.Object.name == Name);
+
+            Employee e = new Employee() { studentid = StudentId, name = Name, course = Course, year = Year, section = Section };
+            await client
+                .Child("Employee")
+                .Child(toUpdateEmployee.Key)
+                .PutAsync(e);
         }
     }
 }
